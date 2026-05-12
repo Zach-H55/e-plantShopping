@@ -7,7 +7,9 @@ const initialState = {
 const cartSlice = createSlice({
   name: "cart",
   initialState,
+
   reducers: {
+    // Add item to cart
     addItem: (state, action) => {
       const item = action.payload;
 
@@ -24,9 +26,35 @@ const cartSlice = createSlice({
         });
       }
     },
+
+    // Remove item from cart
+    removeItem: (state, action) => {
+      state.items = state.items.filter(
+        (item) => item.name !== action.payload
+      );
+    },
+
+    // Update item quantity
+    updateQuantity: (state, action) => {
+      const { name, quantity } = action.payload;
+
+      const itemToUpdate = state.items.find(
+        (item) => item.name === name
+      );
+
+      if (itemToUpdate) {
+        itemToUpdate.quantity = quantity;
+      }
+    },
   },
 });
 
-export const { addItem } = cartSlice.actions;
+// Export actions
+export const {
+  addItem,
+  removeItem,
+  updateQuantity,
+} = cartSlice.actions;
 
+// Export reducer
 export default cartSlice.reducer;
