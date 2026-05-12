@@ -9,7 +9,7 @@ const cartSlice = createSlice({
   initialState,
 
   reducers: {
-    // Add item to cart
+    // Add item
     addItem: (state, action) => {
       const item = action.payload;
 
@@ -27,14 +27,14 @@ const cartSlice = createSlice({
       }
     },
 
-    // Remove item from cart
+    // Remove item
     removeItem: (state, action) => {
       state.items = state.items.filter(
         (item) => item.name !== action.payload
       );
     },
 
-    // Update item quantity
+    // Update quantity
     updateQuantity: (state, action) => {
       const { name, quantity } = action.payload;
 
@@ -49,12 +49,10 @@ const cartSlice = createSlice({
   },
 });
 
-// Export actions
 export const {
   addItem,
   removeItem,
   updateQuantity,
 } = cartSlice.actions;
 
-// Export reducer
 export default cartSlice.reducer;
