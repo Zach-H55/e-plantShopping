@@ -1,12 +1,25 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addItem } from "./CartSlice";
 import "./ProductList.css";
 
 function ProductList() {
   const dispatch = useDispatch();
 
+  // Get cart items from Redux store
+  const CartItems = useSelector((state) => state.cart.items);
+
   const [addedToCart, setAddedToCart] = useState({});
+
+  // Calculate total quantity
+  const calculateTotalQuantity = () => {
+    return CartItems
+      ? CartItems.reduce(
+          (total, item) => total + item.quantity,
+          0
+        )
+      : 0;
+  };
 
   const plantsArray = [
     {
@@ -70,6 +83,7 @@ function ProductList() {
     },
   ];
 
+  // Add to cart
   const handleAddToCart = (product) => {
     dispatch(addItem(product));
 
@@ -80,55 +94,75 @@ function ProductList() {
   };
 
   return (
-    <div className="product-grid">
-      {plantsArray.map((category, index) => (
-        <div key={index}>
-          <h2 className="plant-category">
-            {category.category}
-          </h2>
+    <div>
+      {/* Navbar */}
+      <nav className="navbar">
+        <h1 className="logo">
+          Paradise Nursery
+        </h1>
 
-          <div className="product-list">
-            {category.plants.map((plant, plantIndex) => (
-              <div
-                className="product-card"
-                key={plantIndex}
-              >
-                <div className="sale-badge">SALE</div>
-
-                <img
-                  className="product-image"
-                  src={plant.image}
-                  alt={plant.name}
-                />
-
-                <h3 className="product-title">
-                  {plant.name}
-                </h3>
-
-                <p className="product-cost">
-                  ${plant.cost}
-                </p>
-
-                <p className="product-description">
-                  {plant.description}
-                </p>
-
-                <button
-                  className="product-button"
-                  onClick={() =>
-                    handleAddToCart(plant)
-                  }
-                  disabled={addedToCart[plant.name]}
-                >
-                  {addedToCart[plant.name]
-                    ? "Added to Cart"
-                    : "Add to Cart"}
-                </button>
-              </div>
-            ))}
-          </div>
+        <div className="cart-icon">
+          🛒 {calculateTotalQuantity()}
         </div>
-      ))}
+      </nav>
+
+      {/* Products */}
+      <div className="product-grid">
+        {plantsArray.map((category, index) => (
+          <div key={index}>
+            <h2 className="plant-category">
+              {category.category}
+            </h2>
+
+            <div className="product-list">
+              {category.plants.map(
+                (plant, plantIndex) => (
+                  <div
+                    className="product-card"
+                    key={plantIndex}
+                  >
+                    <div className="sale-badge">
+                      SALE
+                    </div>
+
+                    <img
+                      className="product-image"
+                      src={plant.image}
+                      alt={plant.name}
+                    />
+
+                    <h3 className="product-title">
+                      {plant.name}
+                    </h3>
+
+                    <p className="product-cost">
+                      ${plant.cost}
+                    </p>
+
+                    <p className="product-description">
+                      {plant.description}
+                    </p>
+
+                    <button
+                      className="product-button"
+                      onClick={() =>
+                        handleAddToCart(plant)
+                      }
+                      disabled={
+                        addedToCart[plant.name]
+                      }
+                    >
+                      {addedToCart[plant.name]
+                        ? "Added to Cart"
+                        : "Add to Cart"}
+                    </button>
+                  </div>
+                )
+              )}
+            </div>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
