@@ -6,10 +6,8 @@ import "./ProductList.css";
 function ProductList() {
   const dispatch = useDispatch();
 
-  // Track added items
   const [addedToCart, setAddedToCart] = useState({});
 
-  // Plant Data
   const plantsArray = [
     {
       category: "Air Purifying Plants",
@@ -17,7 +15,7 @@ function ProductList() {
         {
           name: "Snake Plant",
           image:
-            "https://images.unsplash.com/photo-1593691509543-c55fb32e5b13",
+            "https://i.imgur.com/2nCt3Sbl.jpg",
           description:
             "Produces oxygen at night, improving air quality.",
           cost: 15,
@@ -25,7 +23,7 @@ function ProductList() {
         {
           name: "Spider Plant",
           image:
-            "https://images.unsplash.com/photo-1593482892290-f54927ae2b0c",
+            "https://i.imgur.com/7Aden6Al.jpg",
           description:
             "Filters formaldehyde and xylene from the air.",
           cost: 12,
@@ -33,7 +31,7 @@ function ProductList() {
         {
           name: "Peace Lily",
           image:
-            "https://images.unsplash.com/photo-1614594975525-e45190c55d0b",
+            "https://i.imgur.com/1bX5QH6l.jpg",
           description:
             "Removes mold spores and purifies the air.",
           cost: 18,
@@ -45,34 +43,33 @@ function ProductList() {
       category: "Aromatic Plants",
       plants: [
         {
-          name: "Lavender",
+          name: "Basil",
           image:
-            "https://images.unsplash.com/photo-1524593166156-312f362cada0",
+            "https://i.imgur.com/lt4FQGSl.jpg",
           description:
-            "Known for its calming fragrance and beautiful flowers.",
-          cost: 20,
+            "Fresh basil perfect for cooking and aroma.",
+          cost: 10,
         },
         {
           name: "Mint",
           image:
-            "https://images.unsplash.com/photo-1628556270448-4d4e4148e54f",
+            "https://i.imgur.com/sNEJPwCl.jpg",
           description:
-            "Fresh mint leaves perfect for teas and cooking.",
-          cost: 10,
+            "Refreshing mint herb used in drinks and dishes.",
+          cost: 8,
         },
         {
-          name: "Basil",
+          name: "Strawberry",
           image:
-            "https://images.unsplash.com/photo-1601004890684-d8cbf643f5f2",
+            "https://i.imgur.com/5qn7Z6Al.jpg",
           description:
-            "Popular herb used in many delicious recipes.",
-          cost: 8,
+            "Sweet strawberry plant with delicious fruits.",
+          cost: 20,
         },
       ],
     },
   ];
 
-  // Handle Add to Cart
   const handleAddToCart = (product) => {
     dispatch(addItem(product));
 
@@ -96,23 +93,25 @@ function ProductList() {
                 className="product-card"
                 key={plantIndex}
               >
+                <div className="sale-badge">SALE</div>
+
                 <img
                   className="product-image"
                   src={plant.image}
                   alt={plant.name}
                 />
 
-                <div className="product-title">
+                <h3 className="product-title">
                   {plant.name}
-                </div>
+                </h3>
 
-                <div className="product-cost">
+                <p className="product-cost">
                   ${plant.cost}
-                </div>
+                </p>
 
-                <div className="product-description">
+                <p className="product-description">
                   {plant.description}
-                </div>
+                </p>
 
                 <button
                   className="product-button"
@@ -120,16 +119,6 @@ function ProductList() {
                     handleAddToCart(plant)
                   }
                   disabled={addedToCart[plant.name]}
-                  style={{
-                    backgroundColor:
-                      addedToCart[plant.name]
-                        ? "gray"
-                        : "green",
-                    cursor:
-                      addedToCart[plant.name]
-                        ? "not-allowed"
-                        : "pointer",
-                  }}
                 >
                   {addedToCart[plant.name]
                     ? "Added to Cart"
